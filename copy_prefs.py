@@ -29,7 +29,7 @@ def main(profile_name=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Copy Firefox preferences to specified profile.")
-    parser.add_argument('profile', type=str, help='Name of the Firefox profile to copy preferences to. Consider using \'default\' for the default profile.')
+    parser.add_argument('--profile', type=str, help='Name of the profile to copy preferences to. Defaults to \'default\'.', default='default')
     parser.add_argument('--all', action='store_true', help='Copy preferences to all profiles.')
     args = parser.parse_args()
     profile_arg = None if args.all else args.profile

@@ -4,14 +4,12 @@ Simple python script to add [user.js](./user.js) to a firefox profile by name.
 
 ## Usage
 ```
-usage: copy_prefs.py [-h] [--all] profile
+usage: copy_prefs.py [-h] [--profile PROFILE] [--all]
 
 Copy Firefox preferences to specified profile.
 
-positional arguments:
-  profile     Name of the Firefox profile to copy preferences to. Consider using 'default' for the default profile.
-
 options:
-  -h, --help  show this help message and exit
-  --all       Copy preferences to all profiles.
+  -h, --help         show this help message and exit
+  --profile PROFILE  Name of the profile to copy preferences to. Defaults to 'default'.
+  --all              Copy preferences to all profiles.
 ```
