@@ -2,6 +2,7 @@
 import argparse
 from configparser import ConfigParser
 import os
+import platform
 
 def read_prefs(file_path):
     config = ConfigParser()
@@ -9,7 +10,13 @@ def read_prefs(file_path):
     return config
 
 def main(profile_name=None):
-    profiles_file = os.path.expanduser('~/.mozilla/firefox/profiles.ini')
+    if platform.system() == 'Darwin':
+        # macOS
+        config_dir = os.path.expanduser('~/Library/Application Support/Firefox')
+    else:
+        # Linux, etc
+        config_dir = os.path.expanduser('~/.mozilla/firefox')
+    profiles_file = os.path.join(config_dir, "profiles.ini")
     profiles_conf = ConfigParser()
     profiles_conf.read(profiles_file)
 
@@ -22,7 +29,7 @@ def main(profile_name=None):
             continue
         path = profiles_conf.get(section, 'Path', fallback=None)
         if path:
-            prefs_file = os.path.join(os.path.expanduser('~/.mozilla/firefox'), path, 'user.js')
+            prefs_file = os.path.join(config_dir, path, 'user.js')
             with open(prefs_file, "w") as output_file:
                 output_file.write(prefs_content)
             print(f"Copied preferences to {prefs_file}")
