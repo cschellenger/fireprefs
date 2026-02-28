@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 from configparser import ConfigParser
-import os
+from pathlib import Path
 import platform
 
 def read_prefs(file_path):
@@ -12,11 +12,17 @@ def read_prefs(file_path):
 def main(profile_name=None):
     if platform.system() == 'Darwin':
         # macOS
-        config_dir = os.path.expanduser('~/Library/Application Support/Firefox')
+        config_dir = Path.home() / 'Library' / 'Application Support' / 'Firefox'
     else:
         # Linux, etc
-        config_dir = os.path.expanduser('~/.mozilla/firefox')
-    profiles_file = os.path.join(config_dir, "profiles.ini")
+        config_dir = Path.home() / '.mozilla' / 'firefox'
+        
+    if not config_dir.exists():
+        config_dir = Path.home() / '.config' / 'mozilla' / 'firefox'
+
+    profiles_file = config_dir /  'profiles.ini'
+    print(f"Attempting to load {profiles_file}")
+    
     profiles_conf = ConfigParser()
     profiles_conf.read(profiles_file)
 
@@ -29,7 +35,7 @@ def main(profile_name=None):
             continue
         path = profiles_conf.get(section, 'Path', fallback=None)
         if path:
-            prefs_file = os.path.join(config_dir, path, 'user.js')
+            prefs_file = config_dir / path / 'user.js'
             with open(prefs_file, "w") as output_file:
                 output_file.write(prefs_content)
             print(f"Copied preferences to {prefs_file}")
