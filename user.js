@@ -44,5 +44,4 @@ user_pref("sidebar.visibility", "hide-sidebar");
 user_pref("signon.management.page.breach-alerts.enabled", false);
 user_pref("signon.rememberSignons", false);
 user_pref("toolkit.telemetry.reportingpolicy.firstRun", false);
-
-
+user_pref("extensions.ml.enabled", false);
